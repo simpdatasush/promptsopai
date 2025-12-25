@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SuperPrompter Lite</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        textarea { width: 100%; height: 100px; margin-bottom: 10px; }
+        #output { background: #f4f4f4; padding: 15px; border-radius: 5px; margin-top: 20px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>Prompt Refiner</h1>
+    <form id="promptForm">
+        <textarea name="user_input" placeholder="e.g., A robot cat in space"></textarea>
+        <button type="submit">Refine Prompt</button>
+    </form>
+    <div id="output">Result will appear here...</div>
+
+    <script>
+        document.getElementById('promptForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const res = await fetch('/generate', { method: 'POST', body: formData });
+            const data = await res.json();
+            document.getElementById('output').innerText = data.result || data.error;
+        };
+    </script>
+</body>
+</html>
